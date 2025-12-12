@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<job id="hero-report" xmlns="https://jakarta.ee/xml/ns/jakartaee" version="2.0">
+    <step id="generateReport">
+        <batchlet ref="HeroReportBatchlet">
+            <properties>
+                <property name="report.type" value="ACTIVE_HEROES"/>
+            </properties>
+        </batchlet>
+    </step>
+</job>
+

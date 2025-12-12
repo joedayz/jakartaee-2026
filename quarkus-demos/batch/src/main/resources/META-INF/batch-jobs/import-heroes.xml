@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<job id="import-heroes" xmlns="https://jakarta.ee/xml/ns/jakartaee" version="2.0">
+    <step id="importHeroes">
+        <chunk item-count="3">
+            <reader ref="HeroImportReader"/>
+            <processor ref="HeroImportProcessor"/>
+            <writer ref="HeroImportWriter"/>
+        </chunk>
+    </step>
+</job>
+

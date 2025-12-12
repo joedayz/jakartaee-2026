@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<job id="power-statistics" xmlns="https://jakarta.ee/xml/ns/jakartaee" version="2.0">
+    <step id="calculateStatistics">
+        <chunk item-count="5">
+            <reader ref="HeroItemReader"/>
+            <processor ref="PowerStatisticsProcessor"/>
+            <writer ref="PowerStatisticsWriter"/>
+        </chunk>
+    </step>
+</job>
+
