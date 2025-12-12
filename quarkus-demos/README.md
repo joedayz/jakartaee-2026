@@ -14,6 +14,7 @@ Quarkus implementa el **Jakarta EE Core Profile** completo más algunas especifi
 - ✅ Jakarta Persistence (JPA)
 - ✅ Jakarta Transactions
 - ✅ Jakarta Batch
+- ✅ Quarkus Panache (Repository y Active Record patterns)
 
 ## Estructura
 
