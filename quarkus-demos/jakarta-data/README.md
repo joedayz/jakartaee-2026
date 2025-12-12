@@ -23,7 +23,7 @@ Repositorios para gestionar Heroes y Villanos de DC Comics:
 ✅ **Jakarta Data está completamente soportado en Quarkus 3.30.2** a través de Hibernate ORM.
 
 Este demo usa:
-- **Quarkus 3.30.2** con RESTEasy Classic
+- **Quarkus 3.30.2** con la nueva API REST (`quarkus-rest`)
 - **Jakarta Data 1.0.1**
 - **Hibernate Processor 7.1.11.Final**
 - **Unidad de persistencia nombrada** (`DCHeroes`)
