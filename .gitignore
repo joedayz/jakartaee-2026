@@ -58,3 +58,6 @@ wildfly-*/
 *.bak
 *.backup
 
+# Blog posts (no versionar)
+posts/
+
