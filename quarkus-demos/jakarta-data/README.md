@@ -2,15 +2,17 @@
 
 ## Descripción
 
-Este demo muestra cómo usar **Jakarta Data** para crear repositorios que simplifican el acceso a datos usando el patrón Repository.
+Este demo muestra cómo usar **Jakarta Data** para crear repositorios que simplifican el acceso a datos usando el patrón Repository. También incluye ejemplos de **Panache Next (Hibernate with Panache)**, una nueva extensión experimental que combina Panache con Jakarta Data.
 
 ## Objetivo
 
 Aprender a:
-- Crear repositorios con Jakarta Data
+- Crear repositorios con Jakarta Data usando `@Find`, `@Insert`, `@Delete`
 - Usar métodos de consulta derivados del nombre
-- Extender `CrudRepository` y `PageableRepository`
-- Usar paginación y ordenamiento
+- Usar Panache Next con entidades que extienden `PanacheEntity`
+- Crear repositorios anidados dentro de las entidades
+- Usar Active Record Pattern con Panache
+- Combinar Jakarta Data y Panache
 
 ## Tema DC
 
@@ -25,27 +27,48 @@ Repositorios para gestionar Heroes y Villanos de DC Comics:
 Este demo usa:
 - **Quarkus 3.30.2** con la nueva API REST (`quarkus-rest`)
 - **Jakarta Data 1.0.1**
+- **Hibernate ORM with Panache** (para Panache Next)
 - **Hibernate Processor 7.1.11.Final**
 - **Unidad de persistencia nombrada** (`DCHeroes`)
 
 Los repositorios se generan automáticamente en tiempo de compilación usando el procesador de anotaciones de Hibernate.
 
+### ⚠️ Panache Next (Experimental)
+
+Este demo incluye ejemplos de **Panache Next (Hibernate with Panache)**, una nueva extensión experimental de Quarkus que combina Panache con Jakarta Data. 
+
+**Importante**: Panache Next es experimental y puede cambiar. La anotación `@HQL` mencionada en el artículo aún no está disponible en Jakarta Data 1.0.1, por lo que los ejemplos usan métodos de Panache tradicionales pero muestran la estructura que tendría con `@HQL`.
+
 ## Dependencias
 
 ```xml
+<!-- Jakarta RESTful Web Services -->
+<dependency>
+    <groupId>io.quarkus</groupId>
+    <artifactId>quarkus-rest-jackson</artifactId>
+</dependency>
+
 <!-- Jakarta Data API -->
 <dependency>
     <groupId>jakarta.data</groupId>
     <artifactId>jakarta.data-api</artifactId>
+    <version>1.0.1</version>
 </dependency>
 
-<!-- Hibernate ORM (incluye soporte para Jakarta Data) -->
+<!-- Hibernate ORM with Panache (incluye soporte para Jakarta Data y Panache Next) -->
 <dependency>
     <groupId>io.quarkus</groupId>
-    <artifactId>quarkus-hibernate-orm</artifactId>
+    <artifactId>quarkus-hibernate-orm-panache</artifactId>
 </dependency>
 
-<!-- H2 Database (más simple para demos) -->
+<!-- Hibernate Processor para generar implementaciones de repositorios Jakarta Data -->
+<dependency>
+    <groupId>org.hibernate.orm</groupId>
+    <artifactId>hibernate-processor</artifactId>
+    <scope>provided</scope>
+</dependency>
+
+<!-- H2 Database -->
 <dependency>
     <groupId>io.quarkus</groupId>
     <artifactId>quarkus-jdbc-h2</artifactId>
@@ -161,6 +184,8 @@ La aplicación estará disponible en: http://localhost:8080
 
 ### Endpoints Disponibles
 
+#### Jakarta Data (Repositorios tradicionales)
+
 - `GET /api/heroes` - Lista todos los héroes
 - `GET /api/heroes/{id}` - Obtiene un héroe por ID
 - `GET /api/heroes/search?name={pattern}` - Busca héroes por nombre (usa patrón)
@@ -168,6 +193,22 @@ La aplicación estará disponible en: http://localhost:8080
 - `POST /api/heroes` - Crea un nuevo héroe
 - `PUT /api/heroes/{id}` - Actualiza un héroe
 - `DELETE /api/heroes/{id}` - Elimina un héroe
+
+#### Panache Next (Experimental)
+
+- `POST /api/panache-next/heroes/active-record` - Crear héroe usando Active Record Pattern
+- `POST /api/panache-next/heroes/repository` - Crear héroe usando repositorio anidado
+- `GET /api/panache-next/heroes/powerful?minLevel=80` - Buscar héroes poderosos
+- `GET /api/panache-next/heroes/active` - Buscar héroes activos
+- `GET /api/panache-next/heroes/power-range?minLevel=80&maxLevel=100` - Buscar por rango de poder
+- `GET /api/panache-next/heroes/ordered-by-power` - Obtener ordenados por poder
+- `GET /api/panache-next/heroes/{id}` - Obtener héroe por ID
+- `PUT /api/panache-next/heroes/{id}` - Actualizar héroe (Active Record)
+- `DELETE /api/panache-next/heroes/{id}` - Eliminar héroe (Active Record)
+- `DELETE /api/panache-next/heroes/by-name/{name}` - Eliminar por nombre
+- `GET /api/panache-next/heroes/count/active` - Contar héroes activos
+- `GET /api/panache-next/villains/dangerous` - Buscar villanos peligrosos
+- `GET /api/panache-next/villains/threat-level/{level}` - Buscar por nivel de amenaza
 
 La aplicación estará disponible en: `http://localhost:8080`
 
@@ -275,6 +316,144 @@ Para validar que Jakarta Data está funcionando:
 - Los métodos de consulta se generan automáticamente basándose en el nombre del método
 - Soporta paginación, ordenamiento y consultas personalizadas
 - Compatible con Jakarta Persistence (JPA)
+
+## Panache Next (Hibernate with Panache) - Experimental
+
+Este demo también incluye ejemplos de **Panache Next**, una nueva extensión experimental de Quarkus que combina Panache con Jakarta Data.
+
+### ¿Qué es Panache Next?
+
+Panache Next es una nueva versión de Panache diseñada para:
+- Unificar Hibernate ORM y Hibernate Reactive
+- Soportar entidades managed y stateless
+- Integrar Jakarta Data con queries type-safe usando `@HQL`
+- Unificar Active Record y Repository patterns
+- Permitir mezclar diferentes modos de operación
+
+### ⚠️ Estado Experimental
+
+**Importante**: Panache Next es experimental y puede cambiar:
+- Los nombres de extensiones pueden cambiar
+- Los nombres de paquetes pueden cambiar
+- Los nombres de clases pueden cambiar
+- La API puede cambiar
+- La anotación `@HQL` aún no está disponible en Jakarta Data 1.0.1
+
+### Ejemplo de Entidad con Panache Next
+
+```java
+@Entity
+@Table(name = "heroes_panache")
+public class HeroPanacheEntity extends PanacheEntity {
+    
+    public String name;
+    public String power;
+    public Integer powerLevel;
+    public Boolean isActive = true;
+    
+    /**
+     * Repositorio anidado dentro de la entidad.
+     * En Panache Next experimental se usaría @HQL para queries type-safe.
+     */
+    public interface Repo extends PanacheRepository<HeroPanacheEntity> {
+        
+        // En Panache Next experimental sería:
+        // @HQL("where isActive = true order by name")
+        default List<HeroPanacheEntity> findActive() {
+            return find("isActive = true order by name").list();
+        }
+        
+        // En Panache Next experimental sería:
+        // @HQL("where powerLevel >= :minLevel order by powerLevel desc")
+        default List<HeroPanacheEntity> findPowerful(int minLevel) {
+            return find("powerLevel >= ?1 order by powerLevel desc", minLevel).list();
+        }
+    }
+}
+```
+
+### Active Record Pattern
+
+Con Panache Next, puedes usar Active Record Pattern directamente en las instancias:
+
+```java
+@Transactional
+public void createHero() {
+    HeroPanacheEntity hero = new HeroPanacheEntity();
+    hero.name = "Superman";
+    hero.power = "Super fuerza";
+    hero.powerLevel = 95;
+    
+    // Active Record: persistir directamente
+    hero.persist();
+    
+    // Modificar y los cambios se persisten automáticamente (en managed entities)
+    hero.name = "Superman Updated";
+    
+    // Eliminar directamente
+    hero.delete();
+}
+```
+
+### Usar el Repositorio Anidado
+
+También puedes usar el repositorio anidado:
+
+```java
+@Inject
+HeroPanacheEntity.Repo heroRepo;
+
+public void useRepository() {
+    // Usar métodos del repositorio anidado
+    List<HeroPanacheEntity> powerful = heroRepo.findPowerful(80);
+    List<HeroPanacheEntity> active = heroRepo.findActive();
+    
+    // O usar métodos estándar de Panache
+    HeroPanacheEntity hero = heroRepo.findById(1L);
+    heroRepo.persist(newHero);
+}
+```
+
+### Endpoints de Panache Next
+
+Este demo incluye endpoints adicionales que demuestran Panache Next:
+
+- `POST /api/panache-next/heroes/active-record` - Crear héroe usando Active Record
+- `POST /api/panache-next/heroes/repository` - Crear héroe usando repositorio
+- `GET /api/panache-next/heroes/powerful?minLevel=80` - Buscar héroes poderosos
+- `GET /api/panache-next/heroes/active` - Buscar héroes activos
+- `GET /api/panache-next/heroes/power-range?minLevel=80&maxLevel=100` - Buscar por rango
+- `GET /api/panache-next/heroes/ordered-by-power` - Obtener ordenados por poder
+- `DELETE /api/panache-next/heroes/by-name/{name}` - Eliminar por nombre
+- `GET /api/panache-next/heroes/count/active` - Contar activos
+- `GET /api/panache-next/villains/dangerous` - Buscar villanos peligrosos
+
+### Comparación: Jakarta Data vs Panache Next
+
+| Característica | Jakarta Data Puro | Panache Next |
+|----------------|-------------------|--------------|
+| Entidades | JPA estándar | `PanacheEntity` |
+| Repositorios | Interfaces separadas | Anidados en entidades |
+| Active Record | No | Sí |
+| Queries type-safe | `@Find` con métodos derivados | `@HQL` (experimental) |
+| Queries tradicionales | No | Sí (métodos de Panache) |
+| Reactive | No | Sí (experimental) |
+| Stateless | No | Sí (experimental) |
+
+### Ventajas de Panache Next
+
+1. **Repositorios anidados**: Mantiene las operaciones cerca de la entidad
+2. **Active Record**: Permite operaciones directas en instancias
+3. **Flexibilidad**: Puedes usar Active Record o Repository según necesites
+4. **Type-safe queries**: Con `@HQL` (cuando esté disponible)
+5. **Unificación**: Un solo API para blocking y reactive
+
+### Notas sobre Panache Next
+
+- Panache Next es experimental - todo puede cambiar
+- `@HQL` aún no está disponible - usamos métodos de Panache tradicionales
+- Los ejemplos muestran la estructura que tendría con `@HQL`
+- Cuando `@HQL` esté disponible, simplemente reemplaza los métodos `default` con anotaciones `@HQL`
 
 ## Jakarta Query
 

@@ -3,7 +3,7 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.jakartaee</groupId>
-  <artifactId>jakarta-data-demo</artifactId>
+  <artifactId>json-processing-demo</artifactId>
   <version>1.0.0-SNAPSHOT</version>
   <properties>
     <compiler-plugin.version>3.13.0</compiler-plugin.version>
@@ -14,7 +14,6 @@
     <quarkus.platform.artifact-id>quarkus-bom</quarkus.platform.artifact-id>
     <quarkus.platform.group-id>io.quarkus.platform</quarkus.platform.group-id>
     <quarkus.platform.version>3.30.2</quarkus.platform.version>
-    <hibernate.version>7.1.11.Final</hibernate.version>
     <skipITs>true</skipITs>
     <surefire-plugin.version>3.5.1</surefire-plugin.version>
   </properties>
@@ -30,36 +29,16 @@
     </dependencies>
   </dependencyManagement>
   <dependencies>
-    <!-- Jakarta RESTful Web Services - Nueva API REST de Quarkus -->
+    <!-- Jakarta RESTful Web Services -->
     <dependency>
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-rest-jackson</artifactId>
     </dependency>
     
-    <!-- Jakarta Data API (versión específica como en el ejemplo) -->
-    <dependency>
-      <groupId>jakarta.data</groupId>
-      <artifactId>jakarta.data-api</artifactId>
-      <version>1.0.1</version>
-    </dependency>
-    
-    <!-- Hibernate ORM with Panache (incluye soporte para Jakarta Data y Panache Next) -->
+    <!-- Jakarta JSON Processing -->
     <dependency>
       <groupId>io.quarkus</groupId>
-      <artifactId>quarkus-hibernate-orm-panache</artifactId>
-    </dependency>
-    
-    <!-- Hibernate Processor para generar implementaciones de repositorios Jakarta Data -->
-    <dependency>
-      <groupId>org.hibernate.orm</groupId>
-      <artifactId>hibernate-processor</artifactId>
-      <scope>provided</scope>
-    </dependency>
-    
-    <!-- H2 Database (más simple para demos) -->
-    <dependency>
-      <groupId>io.quarkus</groupId>
-      <artifactId>quarkus-jdbc-h2</artifactId>
+      <artifactId>quarkus-jsonp</artifactId>
     </dependency>
     
     <!-- Common entities and DTOs -->
@@ -90,14 +69,6 @@
         <artifactId>maven-compiler-plugin</artifactId>
         <version>${compiler-plugin.version}</version>
         <configuration>
-          <annotationProcessorPathsUseDepMgmt>true</annotationProcessorPathsUseDepMgmt>
-          <annotationProcessorPaths>
-            <path>
-              <groupId>org.hibernate.orm</groupId>
-              <artifactId>hibernate-processor</artifactId>
-              <version>${hibernate.version}</version>
-            </path>
-          </annotationProcessorPaths>
           <compilerArgs>
             <arg>-parameters</arg>
           </compilerArgs>
