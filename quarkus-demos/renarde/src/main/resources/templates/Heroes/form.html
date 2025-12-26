@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{#if action == 'create'}Crear{else}Editar{/if} Héroe - DC Comics</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        .error-message {
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #333;
+            font-weight: bold;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+        .error-field {
+            border-color: #dc3545;
+        }
+        .error-text {
+            color: #dc3545;
+            font-size: 0.9em;
+            margin-top: 5px;
+        }
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background: #11998e;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            margin-right: 10px;
+            transition: background 0.3s;
+        }
+        .btn:hover {
+            background: #0d7a70;
+        }
+        .btn-secondary {
+            background: #6c757d;
+        }
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>{#if action == 'create'}➕ Crear Nuevo Héroe{else}✏️ Editar Héroe{/if}</h1>
+        
+        {#if validationFailed}
+        <div class="error-message">
+            <strong>Errores de validación:</strong>
+            <ul>
+                {#for error in validationErrors}
+                <li>{error}</li>
+                {/for}
+            </ul>
+        </div>
+        {/if}
+        
+        <form method="post" action="/heroes/{#if action == 'create'}create{else}update/{hero.id}{/if}">
+            <div class="form-group">
+                <label for="name">Nombre:</label>
+                <input type="text" id="name" name="name" value="{hero.name ?: ''}" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="power">Poder:</label>
+                <input type="text" id="power" name="power" value="{hero.power ?: ''}" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="powerLevel">Nivel de Poder (1-100):</label>
+                <input type="number" id="powerLevel" name="powerLevel" value="{hero.powerLevel ?: ''}" min="1" max="100" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="description">Descripción:</label>
+                <textarea id="description" name="description">{hero.description ?: ''}</textarea>
+            </div>
+            
+            <div>
+                <button type="submit" class="btn">{#if action == 'create'}Crear{else}Actualizar{/if}</button>
+                <a href="/heroes/list" class="btn btn-secondary">Cancelar</a>
+            </div>
+        </form>
+    </div>
+</body>
+</html>
+

@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DC Heroes & Villains - Renarde Demo</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+        }
+        .info-box {
+            background: #e7f3ff;
+            border-left: 4px solid #2196F3;
+            border-radius: 5px;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+        .info-box h2 {
+            color: #1976D2;
+            margin-bottom: 15px;
+        }
+        .info-box ul {
+            margin-left: 20px;
+            line-height: 1.8;
+        }
+        .comparison {
+            background: #f5f5f5;
+            border-radius: 5px;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+        .comparison h3 {
+            color: #333;
+            margin-bottom: 15px;
+        }
+        .comparison table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .comparison th, .comparison td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        .comparison th {
+            background: #667eea;
+            color: white;
+        }
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+        .card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+            text-decoration: none;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+        }
+        .card h2 {
+            margin-bottom: 15px;
+            font-size: 1.8em;
+        }
+        .card p {
+            opacity: 0.9;
+            line-height: 1.6;
+        }
+        .hero-card {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+        }
+        .villain-card {
+            background: linear-gradient(135deg, #eb3349 0%, #f45c43 100%);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🦸 DC Heroes & Villains 🦹</h1>
+        
+        <div class="info-box">
+            <h2>✨ Renarde Framework</h2>
+            <p>Este demo usa <strong>Renarde</strong>, un framework web para Quarkus que simplifica el desarrollo MVC.</p>
+            <p><strong>Renarde NO es Jakarta MVC estándar</strong>, pero proporciona una experiencia similar con ventajas específicas para Quarkus.</p>
+        </div>
+        
+        <div class="comparison">
+            <h3>📊 Renarde vs Qute Básico</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Característica</th>
+                        <th>Qute Básico (demo MVC)</th>
+                        <th>Renarde</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Clase Base</strong></td>
+                        <td>Sin clase base, uso directo de @Inject Template</td>
+                        <td>Extiende Controller con utilidades integradas</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Convenciones</strong></td>
+                        <td>Rutas manuales con @Path</td>
+                        <td>Convenciones automáticas de rutas</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Renderizado</strong></td>
+                        <td>TemplateInstance.data() manual</td>
+                        <td>render() simplificado</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Flash Messages</strong></td>
+                        <td>Implementación manual</td>
+                        <td>flash() integrado</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Redirecciones</strong></td>
+                        <td>Response.seeOther() manual</td>
+                        <td>redirect() type-safe</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Validación</strong></td>
+                        <td>Validación manual</td>
+                        <td>validationFailed() integrado</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Binding de Formularios</strong></td>
+                        <td>@FormParam manual</td>
+                        <td>@BeanParam automático</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Complejidad</strong></td>
+                        <td>Mayor control, más código</td>
+                        <td>Menos código, más convenciones</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="info-box">
+            <h2>✅ Ventajas de Renarde</h2>
+            <ul>
+                <li><strong>Menos código:</strong> Convenciones automáticas reducen código boilerplate</li>
+                <li><strong>Type-safe:</strong> Redirecciones y referencias type-safe</li>
+                <li><strong>Flash messages:</strong> Sistema integrado para mensajes temporales</li>
+                <li><strong>Validación:</strong> Integración automática con Bean Validation</li>
+                <li><strong>Binding:</strong> Binding automático de formularios a objetos</li>
+                <li><strong>Productividad:</strong> Desarrollo más rápido con menos configuración</li>
+            </ul>
+        </div>
+        
+        <div class="cards">
+            <a href="/heroes/list" class="card hero-card">
+                <h2>🦸 Heroes</h2>
+                <p>CRUD completo con Renarde</p>
+                <p style="margin-top: 10px; font-size: 0.9em;">Convenciones automáticas y utilidades integradas</p>
+            </a>
+            
+            <a href="/villains/list" class="card villain-card">
+                <h2>🦹 Villains</h2>
+                <p>CRUD completo con Renarde</p>
+                <p style="margin-top: 10px; font-size: 0.9em;">Convenciones automáticas y utilidades integradas</p>
+            </a>
+        </div>
+    </div>
+</body>
+</html>
+

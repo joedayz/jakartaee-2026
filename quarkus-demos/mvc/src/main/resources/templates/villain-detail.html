@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{villain.name} - DC Comics</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #eb3349 0%, #f45c43 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        .detail-card {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        .detail-row {
+            margin-bottom: 15px;
+        }
+        .detail-label {
+            font-weight: bold;
+            color: #666;
+            margin-bottom: 5px;
+        }
+        .detail-value {
+            color: #333;
+            font-size: 1.1em;
+        }
+        .power-badge {
+            display: inline-block;
+            padding: 10px 20px;
+            background: #f45c43;
+            color: white;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background: #eb3349;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-right: 10px;
+            transition: background 0.3s;
+        }
+        .btn:hover {
+            background: #c92a3d;
+        }
+        .btn-danger {
+            background: #6c757d;
+        }
+        .btn-danger:hover {
+            background: #5a6268;
+        }
+        .btn-secondary {
+            background: #6c757d;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🦹 {villain.name}</h1>
+        
+        <div class="detail-card">
+            <div class="detail-row">
+                <div class="detail-label">ID</div>
+                <div class="detail-value">{villain.id}</div>
+            </div>
+            
+            <div class="detail-row">
+                <div class="detail-label">Nombre</div>
+                <div class="detail-value"><strong>{villain.name}</strong></div>
+            </div>
+            
+            <div class="detail-row">
+                <div class="detail-label">Poder</div>
+                <div class="detail-value">{villain.power}</div>
+            </div>
+            
+            <div class="detail-row">
+                <div class="detail-label">Nivel de Poder</div>
+                <div class="detail-value">
+                    <span class="power-badge">{villain.powerLevel}</span>
+                </div>
+            </div>
+            
+            {#if villain.description}
+            <div class="detail-row">
+                <div class="detail-label">Descripción</div>
+                <div class="detail-value">{villain.description}</div>
+            </div>
+            {/if}
+        </div>
+        
+        <div>
+            <a href="/villains/{villain.id}/edit" class="btn">✏️ Editar</a>
+            <form method="post" action="/villains/{villain.id}/delete" style="display: inline;">
+                <button type="submit" class="btn btn-danger" onclick="return confirm('¿Estás seguro de eliminar a {villain.name}?')">🗑️ Eliminar</button>
+            </form>
+            <a href="/villains" class="btn btn-secondary">← Volver a la Lista</a>
+        </div>
+    </div>
+</body>
+</html>
+

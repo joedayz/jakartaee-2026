@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Villains - DC Comics</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #eb3349 0%, #f45c43 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        .flash-message {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        .actions {
+            margin-bottom: 20px;
+        }
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background: #eb3349;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-right: 10px;
+            transition: background 0.3s;
+        }
+        .btn:hover {
+            background: #c92a3d;
+        }
+        .btn-danger {
+            background: #6c757d;
+        }
+        .btn-danger:hover {
+            background: #5a6268;
+        }
+        .btn-secondary {
+            background: #6c757d;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background: #eb3349;
+            color: white;
+        }
+        tr:hover {
+            background: #f5f5f5;
+        }
+        .actions-cell {
+            white-space: nowrap;
+        }
+        .power-badge {
+            display: inline-block;
+            padding: 5px 10px;
+            background: #f45c43;
+            color: white;
+            border-radius: 15px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🦹 Villains de DC Comics</h1>
+        
+        {#if flash("success")}
+        <div class="flash-message">
+            {flash("success")}
+        </div>
+        {/if}
+        
+        <div class="actions">
+            <a href="/villains/newVillain" class="btn">➕ Crear Nuevo Villano</a>
+            <a href="/" class="btn btn-secondary">🏠 Inicio</a>
+        </div>
+        
+        {#if villains.size > 0}
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Poder</th>
+                    <th>Nivel de Poder</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {#for villain in villains}
+                <tr>
+                    <td>{villain.id}</td>
+                    <td><strong>{villain.name}</strong></td>
+                    <td>{villain.power}</td>
+                    <td><span class="power-badge">{villain.powerLevel}</span></td>
+                    <td class="actions-cell">
+                        <a href="/villains/view/{villain.id}" class="btn">👁️ Ver</a>
+                        <a href="/villains/edit/{villain.id}" class="btn">✏️ Editar</a>
+                        <form method="post" action="/villains/delete/{villain.id}" style="display: inline;">
+                            <button type="submit" class="btn btn-danger" onclick="return confirm('¿Estás seguro?')">🗑️ Eliminar</button>
+                        </form>
+                    </td>
+                </tr>
+                {/for}
+            </tbody>
+        </table>
+        {#else}
+        <p>No hay villanos registrados. <a href="/villains/newVillain">Crear el primero</a></p>
+        {/if}
+    </div>
+</body>
+</html>
+

@@ -20,6 +20,7 @@ Ver `common/entities/` para las entidades compartidas.
 - **Quarkus**: `3.30.2` (para la mayoría de demos, algunos usan versiones específicas)
 - **Java**: `21` (LTS - recomendado)
 - **Jakarta EE**: `11` (compatible con Java 21)
+- **Jakarta EE Core Profile**: `11` (implementado completamente por Quarkus 3.30.2)
 - **REST API**: `quarkus-rest-jackson` (nueva API REST de Quarkus 3.x)
 
 ### Soporte de Especificaciones Especiales
@@ -37,18 +38,24 @@ Ver `common/entities/` para las entidades compartidas.
 
 ## Perfiles de Jakarta EE
 
-Jakarta EE tiene tres perfiles principales, de menor a mayor:
+Jakarta EE tiene tres perfiles principales (versión 11 actualmente estable), de menor a mayor:
 
-1. **Core Profile** - El más pequeño, para microservicios y runtimes ligeros
-2. **Web Profile** - Core Profile + especificaciones web
-3. **Platform** - Todas las especificaciones (Web Profile + Enterprise)
+1. **Core Profile 11** - El más pequeño, para microservicios y runtimes ligeros
+2. **Web Profile 11** - Core Profile 11 + especificaciones web
+3. **Platform 11** - Todas las especificaciones (Web Profile 11 + Enterprise)
+
+> **Nota**: Jakarta EE 12 (incluyendo Core Profile 12, Web Profile 12 y Platform 12) está actualmente en desarrollo.
 
 ## Implementaciones por Runtime
 
 ### Quarkus
-- ✅ **Core Profile completo** + algunas extras
+- ✅ **Jakarta EE Core Profile 11** completo + algunas extras
+- ✅ **Versión**: Quarkus 3.30.2 implementa completamente el Jakarta EE Core Profile 11
 - ✅ Implementa: CDI Lite, JAX-RS, JSON Processing/Binding, Bean Validation, JPA, Transactions, Batch
-- ❌ NO implementa: JMS, JSF, EJB, JCA, Mail, WebSocket, etc.
+- ✅ Extras: Jakarta Data (vía Hibernate ORM), Jakarta NoSQL (MongoDB), Quarkus Panache
+- ⚠️ Security: Quarkus Security (no Jakarta Security estándar, pero funcionalidad similar)
+- ⚠️ MVC: Qute templates y Renarde (no Jakarta MVC estándar, pero patrón MVC similar)
+- ❌ NO implementa: JMS, JSF, EJB, JCA, Mail, WebSocket, Jakarta MVC estándar, etc. (estas son del Web Profile y Platform)
 
 ### WildFly
 - ✅ **Core Profile** (modo ligero)
@@ -65,15 +72,24 @@ jakartaee-2026/
 │   ├── dto/                        # DTOs compartidos
 │   └── utils/                      # Utilidades comunes
 │
-├── quarkus-demos/                  # Demos con Quarkus (Core Profile + extras)
+├── quarkus-demos/                  # Demos con Quarkus (Jakarta EE Core Profile 11 + extras)
+│   ├── annotations/
 │   ├── cdi/
+│   ├── interceptors/
+│   ├── managed-beans/
+│   ├── security/
+│   ├── mvc/
+│   ├── renarde/
 │   ├── jax-rs/
 │   ├── json-processing/
 │   ├── json-binding/
 │   ├── bean-validation/
 │   ├── jpa/
 │   ├── transactions/
-│   └── batch/
+│   ├── batch/
+│   ├── jakarta-data/
+│   ├── nosql/
+│   └── panache/
 │
 ├── wildfly-core-profile/           # Demos con WildFly en modo Core Profile
 │   ├── cdi/
@@ -104,16 +120,22 @@ jakartaee-2026/
 
 ## Especificaciones por Perfil
 
-### Jakarta EE Core Profile
-- Jakarta Annotations
-- Jakarta CDI (Lite)
-- Jakarta RESTful Web Services (JAX-RS)
-- Jakarta JSON Processing
-- Jakarta JSON Binding
-- Jakarta Bean Validation
-- Jakarta Persistence (JPA)
-- Jakarta Transactions
-- Jakarta Batch
+### Jakarta EE Core Profile 11
+El **Jakarta EE Core Profile 11** incluye las siguientes especificaciones (todas implementadas por Quarkus 3.30.2):
+
+- Jakarta Annotations ✅
+- Jakarta CDI (Lite) ✅
+- Jakarta Interceptors ✅
+- Jakarta Managed Beans ✅
+- Jakarta RESTful Web Services (JAX-RS) ✅
+- Jakarta JSON Processing ✅
+- Jakarta JSON Binding ✅
+- Jakarta Bean Validation ✅
+- Jakarta Persistence (JPA) ✅
+- Jakarta Transactions ✅
+- Jakarta Batch ✅
+
+> **Nota**: Jakarta EE Core Profile 12 está actualmente en desarrollo. Quarkus 3.30.2 se basa en la versión estable Core Profile 11.
 
 ### Jakarta EE Web Profile (Core Profile +)
 - ✅ Todas las del Core Profile +
@@ -142,7 +164,9 @@ jakartaee-2026/
 
 | Spec | Quarkus | WildFly Core | WildFly Platform |
 |------|---------|--------------|------------------|
+| Annotations | ✅ | ✅ | ✅ |
 | CDI Lite | ✅ | ✅ | ✅ |
+| Interceptors | ✅ | ✅ | ✅ |
 | JAX-RS | ✅ | ✅ | ✅ |
 | JSON Processing | ✅ | ✅ | ✅ |
 | JSON Binding | ✅ | ✅ | ✅ |
@@ -150,11 +174,12 @@ jakartaee-2026/
 | JPA | ✅ | ✅ | ✅ |
 | Transactions | ✅ | ✅ | ✅ |
 | Batch | ✅ | ✅ | ✅ |
+| Security | ⚠️ Quarkus Security | ❌ | ✅ Jakarta Security |
 | Servlet | ❌ | ✅ | ✅ |
 | JSP | ❌ | ❌ | ✅ |
 | JSF | ❌ | ❌ | ✅ |
 | WebSocket | ❌ | ❌ | ✅ |
-| MVC | ❌ | ❌ | ✅ |
+| MVC | ⚠️ Qute (no Jakarta MVC) | ❌ | ✅ Jakarta MVC |
 | EJB | ❌ | ❌ | ✅ |
 | JMS | ❌ | ❌ | ✅ |
 | JCA | ❌ | ❌ | ✅ |
@@ -163,9 +188,9 @@ jakartaee-2026/
 
 ## Recomendación para Probar Specs
 
-1. **Core Profile**: Usa Quarkus o WildFly Core Profile
-2. **Web Profile**: Usa WildFly Web Profile
-3. **Platform completo**: Usa WildFly Platform
+1. **Jakarta EE Core Profile 11**: Usa Quarkus 3.30.2 (implementación completa) o WildFly Core Profile
+2. **Jakarta EE Web Profile**: Usa WildFly Web Profile
+3. **Jakarta EE Platform completo**: Usa WildFly Platform
 
 **Ventaja de tener ambos (Quarkus + WildFly):**
 - Comparar implementaciones de las mismas specs

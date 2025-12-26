@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DC Heroes & Villains - MVC Demo</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+        }
+        .warning {
+            background: #fff3cd;
+            border: 1px solid #ffc107;
+            border-radius: 5px;
+            padding: 15px;
+            margin-bottom: 30px;
+        }
+        .warning h2 {
+            color: #856404;
+            margin-bottom: 10px;
+        }
+        .warning p {
+            color: #856404;
+            line-height: 1.6;
+        }
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+        .card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+            text-decoration: none;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+        }
+        .card h2 {
+            margin-bottom: 15px;
+            font-size: 1.8em;
+        }
+        .card p {
+            opacity: 0.9;
+            line-height: 1.6;
+        }
+        .hero-card {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+        }
+        .villain-card {
+            background: linear-gradient(135deg, #eb3349 0%, #f45c43 100%);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🦸 DC Heroes & Villains 🦹</h1>
+        
+        <div class="warning">
+            <h2>⚠️ Nota Importante</h2>
+            <p>
+                <strong>Quarkus NO implementa Jakarta MVC estándar</strong> (que es parte del Web Profile).
+                Este demo usa <strong>Qute</strong>, el motor de plantillas nativo de Quarkus, como alternativa
+                para implementar el patrón MVC. Qute proporciona funcionalidades similares pero con una API diferente.
+            </p>
+        </div>
+        
+        <div class="cards">
+            <a href="/heroes" class="card hero-card">
+                <h2>🦸 Heroes</h2>
+                <p>Gestionar héroes de DC Comics</p>
+                <p style="margin-top: 10px; font-size: 0.9em;">CRUD completo con Qute templates</p>
+            </a>
+            
+            <a href="/villains" class="card villain-card">
+                <h2>🦹 Villains</h2>
+                <p>Gestionar villanos de DC Comics</p>
+                <p style="margin-top: 10px; font-size: 0.9em;">CRUD completo con Qute templates</p>
+            </a>
+        </div>
+    </div>
+</body>
+</html>
+
