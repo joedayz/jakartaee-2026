@@ -133,8 +133,7 @@ public class JsonBindingService {
      */
     public List<Team> deserializeTeams(String json) {
         Jsonb jsonb = JsonbBuilder.create();
-        jakarta.json.bind.type.Type<List<Team>> listType = new jakarta.json.bind.type.Type<List<Team>>() {};
-        return jsonb.fromJson(json, listType);
+        return List.of(jsonb.fromJson(json, Team[].class));
     }
     
     /**

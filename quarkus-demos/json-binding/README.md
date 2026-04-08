@@ -149,7 +149,7 @@ Configura Jsonb con opciones personalizadas:
 
 ```java
 JsonbConfig config = new JsonbConfig()
-    .withPropertyOrderStrategy(PropertyOrderStrategy.LEXICOGRAPHICAL)
+    .withPropertyOrderStrategy(PropertyOrderStrategy.LEXICOGRAPHICAL) //Ordena las propiedades del JSON alfabéticamente.
     .withNullValues(true)
     .withFormatting(true);
 

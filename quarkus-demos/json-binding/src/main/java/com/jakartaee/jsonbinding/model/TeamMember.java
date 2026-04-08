@@ -3,6 +3,8 @@ package com.jakartaee.jsonbinding.model;
 import jakarta.json.bind.annotation.JsonbProperty;
 import jakarta.json.bind.annotation.JsonbPropertyOrder;
 
+import java.util.List;
+
 /**
  * Modelo TeamMember que demuestra:
  * - @JsonbProperty para renombrar campos
