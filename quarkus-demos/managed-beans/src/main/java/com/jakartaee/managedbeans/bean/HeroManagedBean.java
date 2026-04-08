@@ -3,8 +3,6 @@ package com.jakartaee.managedbeans.bean;
 import com.jakartaee.common.entities.Hero;
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
-import jakarta.annotation.ManagedBean;
-import jakarta.annotation.Resource;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
@@ -26,8 +24,13 @@ import java.util.logging.Logger;
  * - Soporta @PostConstruct y @PreDestroy
  * - Puede usar @Resource para inyección de recursos
  * - Puede usar @Inject para inyección de dependencias (si CDI está disponible)
+ *
+ * NOTA:
+ *
+ *  - Jakarta Annotations 1.3 (Java EE 8): @ManagedBean existía pero ya estaba marcada como @Deprecated
+ *  - Jakarta Annotations 2.0 (Jakarta EE 9): migró de javax.* a jakarta.*, seguía deprecated
+ *  - Jakarta Annotations 2.1 (Jakarta EE 10+): removida por completo
  */
-@ManagedBean
 @ApplicationScoped
 public class HeroManagedBean {
     

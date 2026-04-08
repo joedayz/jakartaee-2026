@@ -3,6 +3,7 @@ package com.jakartaee.annotations.service;
 import com.jakartaee.annotations.annotation.HeroPower;
 import com.jakartaee.annotations.annotation.Loggable;
 import com.jakartaee.common.entities.Hero;
+import jakarta.annotation.Generated;
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -91,7 +92,7 @@ public class HeroService {
      * Método que demuestra el uso de @Generated (marcado como código generado).
      * En una implementación real, esto sería generado por un procesador de anotaciones.
      */
-    @jakarta.annotation.Generated(value = "HeroServiceGenerator", date = "2025-12-12")
+    @Generated(value = "HeroServiceGenerator", date = "2025-12-12")
     public List<Hero> getAllHeroes() {
         return new ArrayList<>(heroes);
     }

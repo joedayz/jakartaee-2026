@@ -4,7 +4,6 @@ import com.jakartaee.common.entities.Hero;
 import com.jakartaee.common.entities.Villain;
 import com.jakartaee.managedbeans.bean.HeroManagedBean;
 import com.jakartaee.managedbeans.bean.VillainManagedBean;
-import jakarta.annotation.ManagedBean;
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -20,7 +19,6 @@ import java.util.logging.Logger;
  * Este servicio coordina batallas entre héroes y villanos usando
  * los Managed Beans de Hero y Villain.
  */
-@ManagedBean
 @ApplicationScoped
 public class BattleService {
     

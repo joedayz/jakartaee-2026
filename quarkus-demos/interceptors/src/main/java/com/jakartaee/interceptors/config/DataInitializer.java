@@ -1,6 +1,7 @@
 package com.jakartaee.interceptors.config;
 
 import com.jakartaee.common.entities.Hero;
+import com.jakartaee.interceptors.interceptor.Monitored;
 import io.quarkus.runtime.StartupEvent;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.event.Observes;

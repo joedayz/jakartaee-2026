@@ -1,7 +1,6 @@
 package com.jakartaee.managedbeans.bean;
 
 import com.jakartaee.common.entities.Villain;
-import jakarta.annotation.ManagedBean;
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -18,8 +17,13 @@ import java.util.logging.Logger;
  * 
  * Este bean demuestra cómo múltiples Managed Beans pueden coexistir
  * y ser gestionados independientemente por el contenedor.
+ *
+ * NOTA:
+ *
+ *  - Jakarta Annotations 1.3 (Java EE 8): @ManagedBean existía pero ya estaba marcada como @Deprecated
+ *  - Jakarta Annotations 2.0 (Jakarta EE 9): migró de javax.* a jakarta.*, seguía deprecated
+ *  - Jakarta Annotations 2.1 (Jakarta EE 10+): removida por completo
  */
-@ManagedBean
 @ApplicationScoped
 public class VillainManagedBean {
     
