@@ -1,5 +1,6 @@
 package com.jakartaee.jpa.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -79,6 +80,7 @@ public class HeroJPA implements Serializable {
      * Demuestra relaciones JPA y lazy loading.
      */
     @OneToMany(mappedBy = "hero", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @JsonManagedReference
     private List<Mission> missions = new ArrayList<>();
     
     @Column(name = "created_at", nullable = false, updatable = false)

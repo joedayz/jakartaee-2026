@@ -1,5 +1,6 @@
 package com.jakartaee.jpa.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -54,6 +55,7 @@ public class Mission implements Serializable {
     
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "hero_id", nullable = false)
+    @JsonBackReference
     private HeroJPA hero;
     
     @Column(name = "created_at")
