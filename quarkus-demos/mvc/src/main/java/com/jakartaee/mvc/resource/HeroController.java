@@ -2,6 +2,7 @@ package com.jakartaee.mvc.resource;
 
 import com.jakartaee.common.entities.Hero;
 import com.jakartaee.mvc.service.HeroService;
+import io.quarkus.qute.Location;
 import io.quarkus.qute.Template;
 import io.quarkus.qute.TemplateInstance;
 import jakarta.inject.Inject;
@@ -27,13 +28,16 @@ public class HeroController {
     HeroService heroService;
     
     @Inject
-    Template heroes; // heroes.html
-    
+    @Location("heroes.html")
+    Template heroes;
+
     @Inject
-    Template heroForm; // hero-form.html
-    
+    @Location("hero-form.html")
+    Template heroForm;
+
     @Inject
-    Template heroDetail; // hero-detail.html
+    @Location("hero-detail.html")
+    Template heroDetail;
     
     /**
      * Listar todos los héroes (GET /heroes)

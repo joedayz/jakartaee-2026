@@ -1,5 +1,6 @@
 package com.jakartaee.mvc.resource;
 
+import io.quarkus.qute.Location;
 import io.quarkus.qute.Template;
 import io.quarkus.qute.TemplateInstance;
 import jakarta.inject.Inject;
@@ -15,7 +16,8 @@ import jakarta.ws.rs.core.MediaType;
 public class HomeController {
     
     @Inject
-    Template index; // index.html
+    @Location("index.html")
+    Template index;
     
     @GET
     @Produces(MediaType.TEXT_HTML)

@@ -2,6 +2,7 @@ package com.jakartaee.mvc.resource;
 
 import com.jakartaee.common.entities.Villain;
 import com.jakartaee.mvc.service.VillainService;
+import io.quarkus.qute.Location;
 import io.quarkus.qute.Template;
 import io.quarkus.qute.TemplateInstance;
 import jakarta.inject.Inject;
@@ -24,13 +25,16 @@ public class VillainController {
     VillainService villainService;
     
     @Inject
-    Template villains; // villains.html
-    
+    @Location("villains.html")
+    Template villains;
+
     @Inject
-    Template villainForm; // villain-form.html
-    
+    @Location("villain-form.html")
+    Template villainForm;
+
     @Inject
-    Template villainDetail; // villain-detail.html
+    @Location("villain-detail.html")
+    Template villainDetail;
     
     @GET
     @Produces(MediaType.TEXT_HTML)

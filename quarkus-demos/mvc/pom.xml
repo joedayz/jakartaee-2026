@@ -38,7 +38,7 @@
     <!-- Qute - Motor de plantillas de Quarkus (alternativa a Jakarta MVC) -->
     <dependency>
       <groupId>io.quarkus</groupId>
-      <artifactId>quarkus-qute</artifactId>
+      <artifactId>quarkus-rest-qute</artifactId>
     </dependency>
     
     <!-- Hibernate ORM -->
