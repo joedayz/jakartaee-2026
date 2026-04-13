@@ -16,7 +16,7 @@ import java.util.Optional;
  * Usa anotaciones específicas de Jakarta Data como en la demo oficial.
  */
 @Transactional
-@Repository(dataStore = "DCHeroes")
+@Repository
 public interface VillainRepository {
 
     @Find

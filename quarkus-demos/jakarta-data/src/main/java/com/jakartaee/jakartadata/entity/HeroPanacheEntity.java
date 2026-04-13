@@ -2,6 +2,7 @@ package com.jakartaee.jakartadata.entity;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
+import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -59,13 +60,14 @@ public class HeroPanacheEntity extends PanacheEntity {
      * NOTA: En Panache Next experimental, se usaría @HQL para queries type-safe.
      * Por ahora usamos métodos de Panache tradicionales.
      */
-    public interface Repo extends PanacheRepository<HeroPanacheEntity> {
+    @ApplicationScoped
+    public static class Repo implements PanacheRepository<HeroPanacheEntity> {
         
         /**
          * Buscar héroes activos usando query de Panache.
          * En Panache Next experimental sería: @HQL("where isActive = true order by name")
          */
-        default List<HeroPanacheEntity> findActive() {
+        public List<HeroPanacheEntity> findActive() {
             return find("isActive = true order by name").list();
         }
         
@@ -73,7 +75,7 @@ public class HeroPanacheEntity extends PanacheEntity {
          * Buscar héroes poderosos usando query de Panache con parámetros.
          * En Panache Next experimental sería: @HQL("where powerLevel >= :minLevel order by powerLevel desc")
          */
-        default List<HeroPanacheEntity> findPowerful(int minLevel) {
+        public List<HeroPanacheEntity> findPowerful(int minLevel) {
             return find("powerLevel >= ?1 order by powerLevel desc", minLevel).list();
         }
         
@@ -81,7 +83,7 @@ public class HeroPanacheEntity extends PanacheEntity {
          * Buscar héroes por rango de poder usando query de Panache.
          * En Panache Next experimental sería: @HQL("where powerLevel between :minLevel and :maxLevel order by powerLevel desc")
          */
-        default List<HeroPanacheEntity> findByPowerRange(int minLevel, int maxLevel) {
+        public List<HeroPanacheEntity> findByPowerRange(int minLevel, int maxLevel) {
             return find("powerLevel between ?1 and ?2 order by powerLevel desc", minLevel, maxLevel).list();
         }
         
@@ -89,7 +91,7 @@ public class HeroPanacheEntity extends PanacheEntity {
          * Contar héroes activos usando query de Panache.
          * En Panache Next experimental sería: @HQL("select count(*) from HeroPanacheEntity where isActive = true")
          */
-        default long countActive() {
+        public long countActive() {
             return count("isActive = true");
         }
         
@@ -97,7 +99,7 @@ public class HeroPanacheEntity extends PanacheEntity {
          * Eliminar por nombre usando query de Panache.
          * En Panache Next experimental sería: @HQL("delete from HeroPanacheEntity where name = :name")
          */
-        default long deleteByName(String name) {
+        public long deleteByName(String name) {
             return delete("name = ?1", name);
         }
         
@@ -105,7 +107,7 @@ public class HeroPanacheEntity extends PanacheEntity {
          * Obtener todos los héroes ordenados por poder usando query de Panache.
          * En Panache Next experimental sería: @HQL("order by powerLevel desc")
          */
-        default List<HeroPanacheEntity> findAllOrderedByPower() {
+        public List<HeroPanacheEntity> findAllOrderedByPower() {
             return find("order by powerLevel desc").list();
         }
     }
