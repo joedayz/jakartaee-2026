@@ -1,9 +1,9 @@
 package com.jakartaee.batch.resource;
 
 import jakarta.batch.operations.JobOperator;
-import jakarta.batch.runtime.BatchRuntime;
 import jakarta.batch.runtime.JobExecution;
 import jakarta.batch.runtime.JobInstance;
+import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
@@ -19,11 +19,8 @@ import java.util.stream.Collectors;
 @Produces(MediaType.APPLICATION_JSON)
 public class BatchResource {
     
-    private final JobOperator jobOperator;
-    
-    public BatchResource() {
-        this.jobOperator = BatchRuntime.getJobOperator();
-    }
+    @Inject
+    JobOperator jobOperator;
     
     /**
      * Lista todos los nombres de jobs disponibles.

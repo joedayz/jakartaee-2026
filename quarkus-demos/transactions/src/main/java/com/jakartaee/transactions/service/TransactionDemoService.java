@@ -8,9 +8,13 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.*;
+import org.eclipse.microprofile.faulttolerance.Timeout;
+
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
 /**
@@ -183,7 +187,7 @@ public class TransactionDemoService {
      * Rollback manual usando TransactionManager.
      */
     @Transactional
-    public void transferPowerWithManualRollback(Long fromHeroId, Long toHeroId, Integer amount) {
+    public void transferPowerWithManualRollback(Long fromHeroId, Long toHeroId, Integer amount) throws SystemException {
         try {
             Hero fromHero = entityManager.find(Hero.class, fromHeroId);
             Hero toHero = entityManager.find(Hero.class, toHeroId);
@@ -234,8 +238,6 @@ public class TransactionDemoService {
         battle.setHeroPowerBefore(hero.getPowerLevel());
         battle.setVillainPowerBefore(villain.getPowerLevel());
         
-        entityManager.persist(battle);
-        
         // Simular batalla y calcular resultado
         int heroPower = hero.getPowerLevel();
         int villainPower = villain.getPowerLevel();
@@ -263,9 +265,9 @@ public class TransactionDemoService {
         battle.setPowerExchanged(powerExchanged);
         battle.setEndedAt(LocalDateTime.now());
         
+        entityManager.persist(battle);
         entityManager.merge(hero);
         entityManager.merge(villain);
-        entityManager.merge(battle);
         
         entityManager.flush();
         
@@ -276,10 +278,16 @@ public class TransactionDemoService {
      * Transacción con timeout.
      * La transacción se cancela si excede el tiempo especificado.
      */
-    @Transactional(timeout = 5) // 5 segundos
-    public void longRunningOperation() throws InterruptedException {
-        // Simular operación larga
-        Thread.sleep(6000); // 6 segundos - excederá el timeout
+
+    @Transactional(rollbackOn = Exception.class)
+    @Timeout(value = 5, unit = ChronoUnit.SECONDS)
+    public void longRunningOperation() {
+        try {
+            Thread.sleep(6000);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt(); // 🔑 best practice
+            throw new RuntimeException("Operación interrumpida por timeout", e);
+        }
     }
     
     /**

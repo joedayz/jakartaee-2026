@@ -73,7 +73,7 @@ curl -X POST http://localhost:8080/api/batch/jobs/import-heroes/start
 
 ### Ver Estado del Job
 ```bash
-curl http://localhost:8080/api/batch/jobs/{executionId}
+curl http://localhost:8080/api/batch/jobs/executions/{executionId}
 ```
 
 ### Listar Todos los Jobs
@@ -85,13 +85,19 @@ curl http://localhost:8080/api/batch/jobs
 
 Para validar que Jakarta Batch está funcionando:
 
-1. Verificar que `BatchRuntime` está disponible
-2. Ejecutar un job y verificar que completa correctamente
+1. Ejecutar un job y verificar que completa correctamente
+2. Verificar el estado del job con el endpoint de ejecuciones
 3. Verificar que los datos se procesan correctamente
 
 ```bash
-# Verificar que la spec está disponible
-curl http://localhost:8080/specs/check/batch
+# Listar jobs disponibles
+curl http://localhost:8080/api/batch/jobs
+
+# Ejecutar un job
+curl -X POST http://localhost:8080/api/batch/jobs/import-heroes/start
+
+# Ver estado de la ejecución
+curl http://localhost:8080/api/batch/jobs/executions/1
 ```
 
 ## Estructura del Código
@@ -99,17 +105,27 @@ curl http://localhost:8080/specs/check/batch
 ```
 batch/
 ├── src/main/java/com/jakartaee/batch/
-│   ├── job/
-│   │   ├── ImportHeroesJob.java      # Definición del job
-│   │   └── PowerStatisticsJob.java    # Job de estadísticas
+│   ├── batchlet/
+│   │   └── HeroReportBatchlet.java        # Batchlet para generar reportes
+│   ├── config/
+│   │   └── DataInitializer.java           # Inicialización de datos
 │   ├── reader/
-│   │   └── HeroItemReader.java        # Lee datos
+│   │   ├── HeroImportReader.java          # Lee héroes desde CSV
+│   │   └── HeroItemReader.java            # Lee héroes desde BD
 │   ├── processor/
-│   │   └── HeroItemProcessor.java     # Procesa datos
+│   │   ├── HeroImportProcessor.java       # Procesa héroes importados
+│   │   └── PowerStatisticsProcessor.java  # Calcula estadísticas de poder
 │   ├── writer/
-│   │   └── HeroItemWriter.java        # Escribe datos
+│   │   ├── HeroImportWriter.java          # Escribe héroes en BD
+│   │   └── PowerStatisticsWriter.java     # Escribe estadísticas
 │   └── resource/
-│       └── BatchResource.java         # Endpoint REST para controlar jobs
+│       └── BatchResource.java             # Endpoint REST para controlar jobs
+├── src/main/resources/
+│   ├── application.properties
+│   └── META-INF/batch-jobs/
+│       ├── hero-report.xml                # Definición del job de reportes
+│       ├── import-heroes.xml              # Definición del job de importación
+│       └── power-statistics.xml           # Definición del job de estadísticas
 └── pom.xml
 ```
 
